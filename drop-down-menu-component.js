@@ -103,3 +103,29 @@ class DropDownMenu {
         }
     }
 }
+class AnimationHandler {
+    constructor(component) {
+        this.component = component
+        this.animated = false
+        this.prevDir = -1
+    }
+    startAnimation() {
+        if(this.animated != false) {
+            this.animated = true
+            var i = 0
+            this.component.startUpdate(this.prevDir*-1)
+            const interval = setInterval(()=>{
+                setInterval(()=>{
+                    this.component.render()
+                    this.component.update()
+                    if(i == 6) {
+                        this.component.render()
+                        this.animated = false
+                        this.prevDir *= -1
+                    }
+                    i++
+                })
+            },50)
+        }
+    }
+}
