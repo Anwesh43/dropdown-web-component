@@ -56,6 +56,14 @@ class DropDownComponent extends HTMLElement {
         this.btn.onmousedown = (event) => {
             this.animationHandler.startAnimation()
         }
+        this.dropDownImg.onmousedown = (event) => {
+            const y = event.offsetY
+            this.childObjs.forEach((child)=>{
+                if(y > child.y-h/24 && y < child.y+h/24) {
+                    window.location = child.href
+                }
+            })
+        }
     }
 }
 class DropDownBtn {
