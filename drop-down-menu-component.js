@@ -13,6 +13,16 @@ class DropDownComponent extends HTMLElement {
         }
         shadow.appendChild(this.btn)
         shadow.appendChild(this.dropDownImg)
+        this.dir = 0
+    }
+    update() {
+
+    }
+    startUpdate(dir) {
+        this.dir = dir
+    }
+    stopped() {
+        return dir == 0
     }
     render() {
         const canvas = document.createElement('canvas')
@@ -28,5 +38,31 @@ class DropDownComponent extends HTMLElement {
     }
     connectedCallback() {
         this.render()
+    }
+}
+class DropDownBtn {
+    constructor() {
+        this.rot = 0
+    }
+    draw(context,size) {
+        context.save()
+        context.translate(size/2,size/2)
+        context.rotate(this.rot*Math.PI/180)
+        context.fillStyle = '#9E9E9E'
+        context.beginPath()
+        context.moveTo(0,size)
+        context.lineTo(size,size)
+        context.lineTo(size/2,0)
+        context.fill()
+        context.restore()
+    }
+    update(dir) {
+        this.rot += 18*dir
+        if(this.rot > 90) {
+            this.rot = 90
+        }
+        if(this.rot < 0){
+            this.rot = 0
+        }
     }
 }
