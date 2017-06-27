@@ -45,6 +45,9 @@ class DropDownComponent extends HTMLElement {
     }
     connectedCallback() {
         this.render()
+        this.btn.onmousedown = (event) => {
+            this.animationHandler.startAnimation()
+        }
     }
 }
 class DropDownBtn {
@@ -135,3 +138,4 @@ class AnimationHandler {
         }
     }
 }
+customElements.define('drop-down-menu',DropDownMenu)
