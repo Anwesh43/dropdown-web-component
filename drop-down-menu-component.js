@@ -1,4 +1,5 @@
 const w = window.innerWidth,h = window.innerHeight
+const dropDownColor = '#9E9E9E'
 class DropDownComponent extends HTMLElement {
     constructor() {
         super()
@@ -31,7 +32,7 @@ class DropDownComponent extends HTMLElement {
         const context = canvas.getContext('2d')
         const dropDownCanvas = document.createElement('canvas')
         dropDownCanvas.width = w/3
-        dropDownCanvas.height = (2*this.children.length+1) * (h/12) + h/15
+        dropDownCanvas.height = (2*this.children.length+1) * (h/12) + w/15
         const dropDownContext = dropDownCanvas.getContext('2d')
         this.btn.src = canvas.toDataURL()
         this.dropDownImg.src = dropDownCanvas.toDataURL()
@@ -48,7 +49,7 @@ class DropDownBtn {
         context.save()
         context.translate(size/2,size/2)
         context.rotate(this.rot*Math.PI/180)
-        context.fillStyle = '#9E9E9E'
+        context.fillStyle = dropDownColor
         context.beginPath()
         context.moveTo(0,size)
         context.lineTo(size,size)
@@ -63,6 +64,42 @@ class DropDownBtn {
         }
         if(this.rot < 0){
             this.rot = 0
+        }
+    }
+}
+class DropDownMenu {
+    constructor() {
+        this.scale = 0
+    }
+    draw(context,children,wSize,hSize) {
+        context.fillStyle = dropDownColor
+        context.font = context.font.replace(/\d{2}/,h/16)
+        context.save()
+        context.rect(0,0,wSize,hSize*this.scale)
+        context.clip()
+        context.fillRect(0,0,wSize,hSize)
+        context.beginPath()
+        context.moveTo(w/6,0)
+        context.lineTo(w/6-w/30,w/15)
+        context.lineTo(w/6+w/30,w/15)
+        context.fill()
+        context.fillStyle = 'black'
+        const y = h/15+h/12
+        children.forEach((child)=>{
+            const text = child.text
+            const tw = context.measureText(text).width
+            context.fillText(child.text,w/6-tw/2,y)
+            y += h/6
+        })
+        context.restore()
+    }
+    update(dir) {
+        this.scale += 0.2 * dir
+        if(this.scale > 1) {
+            this.scale = 1
+        }
+        if(this.scale < 0) {
+            this.scale = 0
         }
     }
 }
