@@ -15,9 +15,13 @@ class DropDownComponent extends HTMLElement {
         shadow.appendChild(this.btn)
         shadow.appendChild(this.dropDownImg)
         this.dir = 0
+        this.dropDownBtn = new DropDownBtn()
+        this.dropDownMenu = new DropDownMenu()
+        this.animationHandler = new AnimationHandler(this)
     }
     update() {
-
+        this.dropDownBtn.update(this.dir)
+        this.dropDownMenu.update(this.dir)
     }
     startUpdate(dir) {
         this.dir = dir
@@ -34,6 +38,8 @@ class DropDownComponent extends HTMLElement {
         dropDownCanvas.width = w/3
         dropDownCanvas.height = (2*this.children.length+1) * (h/12) + w/15
         const dropDownContext = dropDownCanvas.getContext('2d')
+        this.dropDownBtn.draw(context)
+        this.dropDownMenu.draw(context)
         this.btn.src = canvas.toDataURL()
         this.dropDownImg.src = dropDownCanvas.toDataURL()
     }
